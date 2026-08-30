@@ -66,7 +66,7 @@ export const getPlanColumns = (
       <div className="flex justify-start items-center">
         <Switch
           checked={row.original.isActive}
-          onChange={() => onToggle(row.original.id, row.original.isActive)}
+          onCheckedChange={() => onToggle(row.original.id, row.original.isActive)}
         />
       </div>
     ),

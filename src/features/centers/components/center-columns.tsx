@@ -87,7 +87,7 @@ export const getCenterColumns = (
       <div className="flex justify-start items-center" title="تعطيل المركز يمنع كافة مستخدميه من تسجيل الدخول فوراً">
         <Switch
           checked={row.original.isActive}
-          onChange={() => onToggleStatus(row.original.id, row.original.isActive)}
+          onCheckedChange={() => onToggleStatus(row.original.id, row.original.isActive)}
         />
       </div>
     ),
