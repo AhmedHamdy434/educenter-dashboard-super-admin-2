@@ -9,7 +9,6 @@ import { ManualPaymentDialog } from '../components/manual-payment-dialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
-import { PageHeader } from '@/components/shared/page-header';
 import {
   Building2,
   Mail,
@@ -22,8 +21,6 @@ import {
   ArrowRight,
   RefreshCw,
   PlusCircle,
-  Clock,
-  CheckCircle2,
 } from 'lucide-react';
 import { toast } from 'sonner';
 

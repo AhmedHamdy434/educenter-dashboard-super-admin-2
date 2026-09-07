@@ -8,7 +8,7 @@ import { useSubscriptionPayments } from '../hooks/use-subscription-payments';
 import { useSubscriptionSummary } from '../hooks/use-subscription-summary';
 import { useDebounce } from '@/hooks/use-debounce';
 import { Card, CardContent } from '@/components/ui/card';
-import { DollarSign, Receipt, TrendingUp } from 'lucide-react';
+import { DollarSign, Receipt } from 'lucide-react';
 
 export const PaymentsPage: React.FC = () => {
   const [search, setSearch] = useState('');

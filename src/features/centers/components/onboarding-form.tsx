@@ -233,7 +233,7 @@ export const OnboardingForm: React.FC = () => {
               </option>
               {plans.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} ({Number(p.price).toFixed(0)} ج.م / {p.durationMonths} شهر)
+                  {p.name} ({Number(p.price).toFixed(0)} ج.م / {p.durationInDays} يوم)
                 </option>
               ))}
             </Select>
