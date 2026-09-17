@@ -50,7 +50,7 @@ export const RenewCenterDialog: React.FC<RenewCenterDialogProps> = ({
         payload: {
           monthsCount: Number(monthsCount) || 1,
           subscriptionPlanId: selectedPlanId || undefined,
-          price: customPrice !== '' ? Number(customPrice) : undefined,
+          customPrice: customPrice !== '' ? Number(customPrice) : undefined,
         },
       },
       {
@@ -100,7 +100,7 @@ export const RenewCenterDialog: React.FC<RenewCenterDialogProps> = ({
                 <option value="" disabled>اختر الباقة...</option>
                 {plans.map((plan) => (
                   <option key={plan.id} value={plan.id}>
-                    {plan.name} — {Number(plan.price).toFixed(0)} ج.م ({plan.durationInDays} يوم)
+                    {plan.name} — {Number(plan.price).toFixed(0)} ج.م ({plan.type === 'YEARLY' ? 'سنوي' : 'شهري'})
                   </option>
                 ))}
               </Select>

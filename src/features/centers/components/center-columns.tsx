@@ -61,7 +61,7 @@ export const getCenterColumns = (
               <option value="" disabled>اختر باقة للاشتراك...</option>
               {plans.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} ({Number(p.price).toFixed(0)} ج.م)
+                  {p.name} ({Number(p.price).toFixed(0)} ج.م / {p.type === 'YEARLY' ? 'سنوي' : 'شهري'})
                 </option>
               ))}
             </Select>

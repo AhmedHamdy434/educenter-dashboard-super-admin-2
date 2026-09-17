@@ -1,15 +1,18 @@
+import { PLAN_TYPE, type PlanType } from '../features/subscription-plans/constants/plan.constants';
+
+export { PLAN_TYPE };
+export type SubscriptionPlanType = PlanType;
+
 export interface SubscriptionPlan {
   id: string;
   name: string;
   description: string | null;
+  image?: string | null;
   price: string | number; // Decimal serializes as string or number
-  durationInDays: number;
+  type: PlanType;
   studentLimit: number;
   teacherLimit: number;
-  subjectLimit: number;
   canCreateExams: boolean;
-  canUploadFiles: boolean;
-  canExportReports: boolean;
   isPopular: boolean;
   isActive: boolean;
   createdAt: string;
@@ -19,14 +22,12 @@ export interface SubscriptionPlan {
 export interface CreatePlanPayload {
   name: string;
   description?: string;
+  image?: string;
   price: number;
-  durationInDays: number;
+  type?: SubscriptionPlanType;
   studentLimit: number;
   teacherLimit: number;
-  subjectLimit: number;
   canCreateExams?: boolean;
-  canUploadFiles?: boolean;
-  canExportReports?: boolean;
   isPopular?: boolean;
   isActive?: boolean;
 }
@@ -40,3 +41,4 @@ export interface PlanQuery {
   active?: boolean;
   popular?: boolean;
 }
+

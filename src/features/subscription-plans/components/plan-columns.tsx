@@ -3,6 +3,7 @@ import type { SubscriptionPlan } from '@/types/subscription-plan.types';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
 import { Check, Edit, X } from 'lucide-react';
+import { PLAN_TYPE } from '../constants/plan.constants';
 
 export const getPlanColumns = (
   onEdit: (plan: SubscriptionPlan) => void,
@@ -28,33 +29,35 @@ export const getPlanColumns = (
     cell: ({ row }) => `${Number(row.original.price).toFixed(2)} ج.م`,
   },
   {
-    accessorKey: 'durationInDays',
-    header: 'المدة (يوم)',
-    cell: ({ row }) => `${row.original.durationInDays} يوم`,
-  },
-  {
-    header: 'الحدود (طالب / معلم / مادة)',
+    accessorKey: 'type',
+    header: 'دورة التجديد',
     cell: ({ row }) => (
-      <span className="text-xs text-muted-foreground font-mono">
-        {row.original.studentLimit} / {row.original.teacherLimit} / {row.original.subjectLimit}
+      <span
+        className={`inline-flex items-center px-2 py-0.5 rounded text-[11px] font-semibold ${
+          row.original.type === PLAN_TYPE.YEARLY
+            ? 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400'
+            : 'bg-emerald-100 text-emerald-800 dark:bg-emerald-900/30 dark:text-emerald-400'
+        }`}
+      >
+        {row.original.type === PLAN_TYPE.YEARLY ? 'سنوي (Yearly)' : 'شهري (Monthly)'}
       </span>
     ),
   },
   {
-    header: 'المميزات الإضافية',
+    header: 'الحدود (طالب / معلم)',
+    cell: ({ row }) => (
+      <span className="text-xs text-muted-foreground font-mono">
+        {row.original.studentLimit} طالب / {row.original.teacherLimit} معلم
+      </span>
+    ),
+  },
+  {
+    header: 'المميزات',
     cell: ({ row }) => (
       <div className="flex gap-1.5 flex-wrap justify-start">
-        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] ${row.original.canCreateExams ? 'text-amber-700 bg-amber-50 dark:bg-amber-950/40 dark:text-amber-300' : 'text-red-400 bg-red-50 dark:bg-red-950/30'}`}>
+        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] ${row.original.canCreateExams ? 'text-amber-700 bg-amber-50 dark:bg-amber-950/40 dark:text-amber-300' : 'text-muted-foreground bg-muted'}`}>
           {row.original.canCreateExams ? <Check className="h-3 w-3 ml-0.5" /> : <X className="h-3 w-3 ml-0.5" />}
           <span>الاختبارات (قريباً)</span>
-        </span>
-        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] ${row.original.canUploadFiles ? 'text-green-600 bg-green-50 dark:bg-green-950/40 dark:text-green-300' : 'text-red-400 bg-red-50 dark:bg-red-950/30'}`}>
-          {row.original.canUploadFiles ? <Check className="h-3 w-3 ml-0.5" /> : <X className="h-3 w-3 ml-0.5" />}
-          <span>الملفات</span>
-        </span>
-        <span className={`inline-flex items-center px-1.5 py-0.5 rounded-full text-[10px] ${row.original.canExportReports ? 'text-green-600 bg-green-50 dark:bg-green-950/40 dark:text-green-300' : 'text-red-400 bg-red-50 dark:bg-red-950/30'}`}>
-          {row.original.canExportReports ? <Check className="h-3 w-3 ml-0.5" /> : <X className="h-3 w-3 ml-0.5" />}
-          <span>التقارير</span>
         </span>
       </div>
     ),

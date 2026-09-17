@@ -6,6 +6,7 @@ import { useUpdateCenterStatus } from '../mutations/use-update-center-status';
 import { OperationalBadge } from '../components/operational-badge';
 import { RenewCenterDialog } from '../components/renew-center-dialog';
 import { ManualPaymentDialog } from '../components/manual-payment-dialog';
+import { CenterFormDialog } from '../components/center-form-dialog';
 import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Switch } from '@/components/ui/switch';
@@ -21,6 +22,7 @@ import {
   ArrowRight,
   RefreshCw,
   PlusCircle,
+  Edit,
 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -31,6 +33,8 @@ export const CenterDetailsPage: React.FC = () => {
 
   const [renewDialogOpen, setRenewDialogOpen] = useState(false);
   const [manualPaymentOpen, setManualPaymentOpen] = useState(false);
+  const [editDialogOpen, setEditDialogOpen] = useState(false);
+
 
   const updateStatusMutation = useUpdateCenterStatus();
 
@@ -92,6 +96,15 @@ export const CenterDetailsPage: React.FC = () => {
 
         {/* Top Action Buttons */}
         <div className="flex items-center gap-2 flex-wrap">
+          <Button
+            variant="outline"
+            onClick={() => setEditDialogOpen(true)}
+            className="cursor-pointer gap-2 text-xs"
+          >
+            <Edit className="h-4 w-4 text-primary" />
+            <span>تعديل بيانات المركز</span>
+          </Button>
+
           <Button
             variant="outline"
             onClick={() => setRenewDialogOpen(true)}
@@ -206,7 +219,7 @@ export const CenterDetailsPage: React.FC = () => {
                   <div className="p-3 bg-muted/30 rounded-lg space-y-1">
                     <p className="text-muted-foreground">قيمة الاشتراك</p>
                     <p className="font-bold text-sm text-emerald-600">
-                      {Number(activeSub.price).toLocaleString('ar-EG')} ج.م
+                      {Number(activeSub.customPrice ?? 0).toLocaleString('ar-EG')} ج.م
                     </p>
                   </div>
                   <div className="p-3 bg-muted/30 rounded-lg space-y-1">
@@ -249,7 +262,7 @@ export const CenterDetailsPage: React.FC = () => {
                       </div>
                       <div className="text-left">
                         <span className="px-2 py-0.5 rounded bg-primary/10 text-primary text-[10px] font-semibold">
-                          {u.role === 'CENTER_ADMIN' ? 'مالك / مدير المركز' : u.role}
+                          {u.role === 'OWNER' ? 'مالك المركز' : u.role}
                         </span>
                         {u.phone && <p className="text-muted-foreground text-[11px] font-mono mt-0.5" dir="ltr">{u.phone}</p>}
                       </div>
@@ -297,10 +310,10 @@ export const CenterDetailsPage: React.FC = () => {
                   {payments.map((p) => (
                     <tr key={p.id} className="hover:bg-muted/40 transition-colors">
                       <td className="py-2.5 px-3 font-bold text-emerald-600 font-mono">
-                        {Number(p.amount).toLocaleString('ar-EG')} ج.م
+                        {Number(p.paid ?? 0).toLocaleString('ar-EG')} ج.م
                       </td>
                       <td className="py-2.5 px-3 font-mono">
-                        {new Date(p.paidAt || p.createdAt).toLocaleDateString('ar-EG')}
+                        {new Date(p.createdAt || '').toLocaleDateString('ar-EG')}
                       </td>
                       <td className="py-2.5 px-3 text-muted-foreground font-mono">
                         من {new Date(p.periodStart).toLocaleDateString('ar-EG')} إلى {new Date(p.periodEnd).toLocaleDateString('ar-EG')}
@@ -327,6 +340,12 @@ export const CenterDetailsPage: React.FC = () => {
       </Card>
 
       {/* Dialogs */}
+      <CenterFormDialog
+        open={editDialogOpen}
+        onOpenChange={setEditDialogOpen}
+        center={center}
+      />
+
       <RenewCenterDialog
         open={renewDialogOpen}
         onOpenChange={setRenewDialogOpen}

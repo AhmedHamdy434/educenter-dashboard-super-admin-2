@@ -21,13 +21,12 @@ export interface SubscriptionPayment {
   id: string;
   centerSubscriptionId: string;
   centerId: string;
-  amount: string;
-  paidAt: string;
+  paid: string | number;
+  createdAt: string;
   periodStart: string;
   periodEnd: string;
   paymentMethod: string | null;
   notes: string | null;
-  createdAt: string;
   center?: SubscriptionPaymentCenter;
   centerSubscription?: SubscriptionPaymentCenterSubscription;
 }
@@ -53,9 +52,10 @@ export interface SubscriptionPaymentQuery {
 
 export interface CreateManualPaymentPayload {
   centerSubscriptionId: string;
-  amount: number;
-  periodStart: string; // YYYY-MM-DD
-  periodEnd: string; // YYYY-MM-DD
+  paid: number;
+  periodStart: string; // ISO date string
+  periodEnd: string; // ISO date string
   paymentMethod?: string;
   notes?: string;
 }
+

@@ -10,7 +10,7 @@ export interface CenterUser {
 
 export interface CenterSubscription {
   id: string;
-  price: string | number;
+  customPrice: string | number;
   startDate: string;
   endDate: string;
   status: 'ACTIVE' | 'EXPIRED' | 'CANCELED';
@@ -39,13 +39,14 @@ export interface CreateCenterPayload {
   email: string;
   phone: string;
   description?: string;
-  logo?: string;
+  logo?: any;
   address?: string;
   ownerFullName: string;
   ownerEmail: string;
   ownerPassword: string;
   subscriptionPlanId: string;
-  price?: number;
+  startDate: string; // ISO date string
+  customPrice?: number;
 }
 
 export interface UpdateCenterPayload {
@@ -54,7 +55,7 @@ export interface UpdateCenterPayload {
   email?: string;
   phone?: string;
   description?: string;
-  logo?: string;
+  logo?: any;
   address?: string;
 }
 
@@ -74,6 +75,7 @@ export interface RenewCenterPayload {
   subscriptionPlanId?: string;
   monthsCount?: number;
   autoRenew?: boolean;
-  price?: number;
+  customPrice?: number;
 }
+
 

@@ -23,20 +23,20 @@ export const getPaymentColumns = (): ColumnDef<SubscriptionPayment>[] => [
     },
   },
   {
-    accessorKey: 'amount',
+    accessorKey: 'paid',
     header: 'المبلغ المدفوع',
     cell: ({ row }) => (
       <span className="font-bold text-emerald-600 font-mono text-sm">
-        {Number(row.original.amount).toLocaleString('ar-EG')} ج.م
+        {Number(row.original.paid ?? 0).toLocaleString('ar-EG')} ج.م
       </span>
     ),
   },
   {
-    accessorKey: 'paidAt',
+    accessorKey: 'createdAt',
     header: 'تاريخ الدفع',
     cell: ({ row }) => (
       <span className="font-mono text-xs">
-        {new Date(row.original.paidAt || row.original.createdAt).toLocaleDateString('ar-EG')}
+        {new Date(row.original.createdAt || '').toLocaleDateString('ar-EG')}
       </span>
     ),
   },

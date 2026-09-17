@@ -20,6 +20,7 @@ export const OnboardingForm: React.FC = () => {
   const [phone, setPhone] = useState('');
   const [address, setAddress] = useState('');
   const [description, setDescription] = useState('');
+  const [logoFile, setLogoFile] = useState<File | null>(null);
 
   // Owner Details
   const [ownerFullName, setOwnerFullName] = useState('');
@@ -28,6 +29,7 @@ export const OnboardingForm: React.FC = () => {
 
   // Subscription Details
   const [subscriptionPlanId, setSubscriptionPlanId] = useState('');
+  const [startDate, setStartDate] = useState<string>(() => new Date().toISOString().slice(0, 10));
   const [customPrice, setCustomPrice] = useState<string>('');
 
   const plans = plansData?.data || [];
@@ -52,20 +54,32 @@ export const OnboardingForm: React.FC = () => {
       return;
     }
 
+    if (!startDate) {
+      toast.error('يرجى تحديد تاريخ بداية الاشتراك.');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('slug', slug);
+    formData.append('email', email);
+    formData.append('phone', phone);
+    if (address) formData.append('address', address);
+    if (description) formData.append('description', description);
+    formData.append('ownerFullName', ownerFullName);
+    formData.append('ownerEmail', ownerEmail);
+    formData.append('ownerPassword', ownerPassword);
+    formData.append('subscriptionPlanId', subscriptionPlanId);
+    formData.append('startDate', new Date(startDate).toISOString());
+    if (customPrice) {
+      formData.append('customPrice', customPrice);
+    }
+    if (logoFile) {
+      formData.append('logo', logoFile);
+    }
+
     createCenterMutation.mutate(
-      {
-        name,
-        slug,
-        email,
-        phone,
-        address: address || undefined,
-        description: description || undefined,
-        ownerFullName,
-        ownerEmail,
-        ownerPassword,
-        subscriptionPlanId,
-        price: customPrice ? Number(customPrice) : undefined,
-      },
+      formData as any,
       {
         onSuccess: () => {
           toast.success('تم إنشاء المركز التعليمي وتهيئة حساب المالك بنجاح.');
@@ -153,6 +167,20 @@ export const OnboardingForm: React.FC = () => {
               placeholder="وصف مختصر للمركز والمراحل التي يقدمها"
             />
           </div>
+
+          <div className="space-y-1.5 md:col-span-2">
+            <label className="text-xs font-semibold text-muted-foreground">شعار المركز (Logo) — اختياري</label>
+            <Input
+              type="file"
+              accept="image/*"
+              onChange={(e) => {
+                if (e.target.files && e.target.files[0]) {
+                  setLogoFile(e.target.files[0]);
+                }
+              }}
+              className="cursor-pointer text-xs"
+            />
+          </div>
         </CardContent>
       </Card>
 
@@ -212,7 +240,7 @@ export const OnboardingForm: React.FC = () => {
             <span>باقة الاشتراك الأولية</span>
           </CardTitle>
         </CardHeader>
-        <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-2 gap-4">
+        <CardContent className="pt-6 grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-1.5">
             <label className="text-xs font-semibold text-muted-foreground">اختر الباقة *</label>
             <Select
@@ -233,10 +261,20 @@ export const OnboardingForm: React.FC = () => {
               </option>
               {plans.map((p) => (
                 <option key={p.id} value={p.id}>
-                  {p.name} ({Number(p.price).toFixed(0)} ج.م / {p.durationInDays} يوم)
+                  {p.name} ({Number(p.price).toFixed(0)} ج.م / {p.type === 'YEARLY' ? 'سنوي' : 'شهري'})
                 </option>
               ))}
             </Select>
+          </div>
+
+          <div className="space-y-1.5">
+            <label className="text-xs font-semibold text-muted-foreground">تاريخ بداية الاشتراك *</label>
+            <Input
+              type="date"
+              required
+              value={startDate}
+              onChange={(e) => setStartDate(e.target.value)}
+            />
           </div>
 
           <div className="space-y-1.5">

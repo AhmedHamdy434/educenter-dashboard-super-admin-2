@@ -35,7 +35,8 @@ export const ManualPaymentDialog: React.FC<ManualPaymentDialogProps> = ({
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-      setAmount(activeSub?.price ? String(activeSub.price) : '');
+      const defaultPrice = activeSub?.customPrice;
+      setAmount(defaultPrice ? String(defaultPrice) : '');
       setPeriodStart(activeSub?.startDate ? activeSub.startDate.slice(0, 10) : today.toISOString().slice(0, 10));
       setPeriodEnd(activeSub?.endDate ? activeSub.endDate.slice(0, 10) : nextMonth.toISOString().slice(0, 10));
       setPaymentMethod('cash');
@@ -51,8 +52,8 @@ export const ManualPaymentDialog: React.FC<ManualPaymentDialogProps> = ({
       return;
     }
 
-    const parsedAmount = Number(amount);
-    if (isNaN(parsedAmount) || parsedAmount <= 0) {
+    const parsedPaid = Number(amount);
+    if (isNaN(parsedPaid) || parsedPaid <= 0) {
       toast.error('يرجى إدخال مبلغ صحيح.');
       return;
     }
@@ -62,14 +63,17 @@ export const ManualPaymentDialog: React.FC<ManualPaymentDialogProps> = ({
       return;
     }
 
+    const startDateIso = new Date(periodStart).toISOString();
+    const endDateIso = new Date(periodEnd).toISOString();
+
     createPaymentMutation.mutate(
       {
         centerId: center.id,
         payload: {
           centerSubscriptionId: activeSub.id,
-          amount: parsedAmount,
-          periodStart,
-          periodEnd,
+          paid: parsedPaid,
+          periodStart: startDateIso,
+          periodEnd: endDateIso,
           paymentMethod: paymentMethod || undefined,
           notes: notes || undefined,
         },
