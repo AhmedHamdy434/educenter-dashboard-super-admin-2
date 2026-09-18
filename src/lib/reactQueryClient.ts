@@ -13,10 +13,11 @@ export const queryClient = new QueryClient({
       if (res.message) toast.success(res.message || "Success");
     },
     onError: (error: any) => {
-      const apiError = error.response?.data;
+      const apiError = error.response?.data || error.response || error;
       const errorMessage =
         apiError?.errors?.error?.[0] ||
         apiError?.message ||
+        apiError?.message?.[0] ||
         "Something went wrong";
       toast.error(errorMessage);
     },

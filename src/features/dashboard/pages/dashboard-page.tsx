@@ -1,7 +1,7 @@
 import React from 'react';
 import { PageHeader } from '@/components/shared/page-header';
 import { StatsCards } from '../components/stats-cards';
-import { GrowthChart } from '../components/growth-chart';
+// import { GrowthChart } from '../components/growth-chart';
 
 export const DashboardPage: React.FC = () => {
   return (
@@ -14,7 +14,7 @@ export const DashboardPage: React.FC = () => {
       <StatsCards />
 
       <div className="grid grid-cols-1 gap-6">
-        <GrowthChart />
+        {/* <GrowthChart /> */}
       </div>
     </div>
   );

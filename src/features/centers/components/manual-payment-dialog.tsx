@@ -35,8 +35,6 @@ export const ManualPaymentDialog: React.FC<ManualPaymentDialogProps> = ({
       const nextMonth = new Date();
       nextMonth.setMonth(nextMonth.getMonth() + 1);
 
-      const defaultPrice = activeSub?.customPrice;
-      setAmount(defaultPrice ? String(defaultPrice) : '');
       setPeriodStart(activeSub?.startDate ? activeSub.startDate.slice(0, 10) : today.toISOString().slice(0, 10));
       setPeriodEnd(activeSub?.endDate ? activeSub.endDate.slice(0, 10) : nextMonth.toISOString().slice(0, 10));
       setPaymentMethod('cash');
@@ -80,11 +78,10 @@ export const ManualPaymentDialog: React.FC<ManualPaymentDialogProps> = ({
       },
       {
         onSuccess: () => {
-          toast.success('تم تسجيل الدفعة اليدوية بنجاح.');
           onOpenChange(false);
         },
-        onError: (err: any) => {
-          toast.error(err?.response?.data?.message || err?.message || 'حدث خطأ أثناء تسجيل الدفعة.');
+        onError: () => {
+          console.log('error')
         },
       }
     );

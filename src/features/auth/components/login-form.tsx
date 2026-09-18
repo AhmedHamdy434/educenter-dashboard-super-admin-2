@@ -1,10 +1,10 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useLogin } from '../hooks/use-login';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { loginSchema, type LoginFields } from '../schemas/auth.schema';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useLogin } from "../hooks/use-login";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { loginSchema, type LoginFields } from "../schemas/auth.schema";
 
 export const LoginForm: React.FC = () => {
   const { mutate, isLoading, errorMsg } = useLogin();
@@ -22,7 +22,11 @@ export const LoginForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 text-right" dir="rtl">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 text-right"
+      dir="rtl"
+    >
       {errorMsg && (
         <div className="p-3 text-xs bg-red-100 text-red-700 rounded-lg text-center">
           {errorMsg}
@@ -36,12 +40,17 @@ export const LoginForm: React.FC = () => {
         <Input
           type="text"
           placeholder="admin@example.com"
-          {...register('identifier')}
+          {...register("identifier")}
           className="text-right"
         />
         {errors.identifier && (
-          <p className="text-xs text-red-500 mt-1">{errors.identifier.message}</p>
+          <p className="text-xs text-red-500 mt-1">
+            {errors.identifier.message}
+          </p>
         )}
+        <span className="text-xs block w-fit ms-auto">
+          superadmin@educenter.com
+        </span>
       </div>
 
       <div className="space-y-2">
@@ -51,16 +60,20 @@ export const LoginForm: React.FC = () => {
         <Input
           type="password"
           placeholder="••••••••"
-          {...register('password')}
+          {...register("password")}
           className="text-right"
         />
         {errors.password && (
           <p className="text-xs text-red-500 mt-1">{errors.password.message}</p>
         )}
+        <span className="text-xs block w-fit ms-auto">Admin@123456</span>
       </div>
-
-      <Button type="submit" className="w-full mt-2 cursor-pointer" disabled={isLoading}>
-        {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
+      <Button
+        type="submit"
+        className="w-full mt-2 cursor-pointer"
+        disabled={isLoading}
+      >
+        {isLoading ? "جاري تسجيل الدخول..." : "تسجيل الدخول"}
       </Button>
     </form>
   );
