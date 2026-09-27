@@ -9,6 +9,7 @@ import {
   DollarSign,
 } from "lucide-react";
 import { useHomeStats } from "../hooks/use-home-stats";
+import { GRACE_PERIOD_DAYS } from "@/constants";
 
 export const StatsCards: React.FC = () => {
   const { data: homeStats, isLoading: homeStatsLoading } = useHomeStats();
@@ -26,16 +27,16 @@ export const StatsCards: React.FC = () => {
     {
       title: "إجمالي المراكز التعليمية",
       value: homeStats?.data?.totalCenters,
-      subtitle: "مسجلة في المنصة",
+      subtitle: "جميع المراكز المسجلة",
       icon: Building2,
       colorClass:
         "text-blue-600 bg-blue-500/10 border-blue-200 dark:border-blue-800/40",
       borderTop: "border-t-blue-500",
     },
     {
-      title: "مراكز سارية (Active)",
+      title: "الاشتراكات النشطة",
       value: homeStats?.data?.activeCenters,
-      subtitle: "اشتراك سارٍ وصلاحيات كاملة",
+      subtitle: "مراكز باشتراك سارٍ",
       icon: ShieldCheck,
       colorClass:
         "text-emerald-600 bg-emerald-500/10 border-emerald-200 dark:border-emerald-800/40",
@@ -44,7 +45,7 @@ export const StatsCards: React.FC = () => {
     {
       title: "في فترة السماح (Grace)",
       value: homeStats?.data?.graceCenters,
-      subtitle: "متبقي أقل من 3 أيام",
+      subtitle: `متبقي أقل من ${GRACE_PERIOD_DAYS} أيام`,
       icon: Clock,
       colorClass:
         "text-amber-600 bg-amber-500/10 border-amber-200 dark:border-amber-800/40",

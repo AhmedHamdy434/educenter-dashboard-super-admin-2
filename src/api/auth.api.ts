@@ -7,7 +7,7 @@ export const authApi = {
     return axiosClient.post('/auth/super-admin/login', payload);
   },
   getProfile: async (): Promise<ApiResponse<any>> => {
-    return axiosClient.get('/auth/me');
+    return axiosClient.get('/auth/super-admin/me');
   },
   changePassword: async (payload: ChangePasswordPayload): Promise<ApiResponse<any>> => {
     return axiosClient.patch('/auth/change-password', payload);

@@ -1,4 +1,5 @@
 import type { Center } from '@/types/center.types';
+import { GRACE_PERIOD_MS } from '@/constants';
 
 export type OperationalState = 'ACTIVE' | 'GRACE_PERIOD' | 'EXPIRED' | 'SUSPENDED';
 
@@ -15,7 +16,7 @@ export interface OperationalStatusInfo {
  * 1. Manually Suspended (isActive === false) -> SUSPENDED
  * 2. No subscription -> EXPIRED
  * 3. Active subscription (now <= endDate && status === 'ACTIVE') -> ACTIVE
- * 4. Grace Period (now > endDate && now <= endDate + 3 days) -> GRACE_PERIOD
+ * 4. Grace Period (now > endDate && now <= endDate + grace period) -> GRACE_PERIOD
  * 5. Beyond Grace Period -> EXPIRED
  */
 export function getCenterOperationalState(center: Center): OperationalStatusInfo {
@@ -44,8 +45,7 @@ export function getCenterOperationalState(center: Center): OperationalStatusInfo
 
   const now = Date.now();
   const endDateMs = new Date(subscription.endDate).getTime();
-  const THREE_DAYS_MS = 3 * 24 * 60 * 60 * 1000;
-  const graceEndMs = endDateMs + THREE_DAYS_MS;
+  const graceEndMs = endDateMs + GRACE_PERIOD_MS;
 
   // 3. Active Subscription (endDate in the future AND status is ACTIVE)
   if (now <= endDateMs && subscription.status === 'ACTIVE') {
